@@ -1,6 +1,7 @@
 class Project {
-    constructor(title) {
-        this.title =  title
+    constructor(project) {
+        this.id = project.id
+        this.title =  project.attributes.title
     }
 
     renderProject() {
