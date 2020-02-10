@@ -6,14 +6,8 @@ class Project {
     }
 
     renderProject() {
-        return `
-            <li>
-                <h3>${this.title}
-                    <button data-id=${this.id}>edit</button>
-                </h3>
-            </li>
-        `;
-        }
+        return `<li data-id=${this.id}>${this.title}</li>`;
+    }
 
     static findById(id) {
         return this.all.find(project => project.id === id)
