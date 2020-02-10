@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(projects => {
             projects.data.forEach(project => {
-                console.log(project)
+                const newProject = new Project(project.attributes.title)
+                document.querySelector('.projects-list').innerHTML += newProject.renderProject();
             })
         })
 });
