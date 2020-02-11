@@ -27,8 +27,11 @@ class App {
                 },
                 body: JSON.stringify(projectJSON)
             })
-                .then(res => res.json())
-                .then(json => console.log(json))
+            .then(res => res.json())
+            .then(project => {
+                new Project(project.data)
+                this.addProjects()
+            })
         })
     }
 
@@ -47,8 +50,9 @@ class App {
 
     addProjects() {
         const projectsList = document.querySelector(".projects-list")
+        const projects = Project.all
         projectsList.innerHTML = ''
-        Project.all.forEach(project => {
+        projects.map((project, i) => {
             projectsList.appendChild(project.renderProject())
         })
     }
