@@ -13,6 +13,23 @@ class App {
             const project = Project.findById(id)
             this.addTasks(project)
         })
+
+        document.querySelector(".create-project-form").addEventListener("submit", e => {
+            e.preventDefault()
+            const title = document.querySelector("#create-project-input").value
+            const projectJSON = { title }
+
+            fetch('http://localhost:3000/api/v1/projects', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: JSON.stringify(projectJSON)
+            })
+                .then(res => res.json())
+                .then(json => console.log(json))
+        })
     }
 
     createProjects(projects) {
@@ -30,17 +47,10 @@ class App {
 
     addProjects() {
         const projectsList = document.querySelector(".projects-list")
-        const newProjectLi = document.createElement('li')
-        const newProjectInput = document.createElement('input')
-        newProjectInput.id = "create-project-input"
-        newProjectInput.classList.add("u-full-width")
-        newProjectInput.placeholder = "Create Project ..."
         projectsList.innerHTML = ''
         Project.all.forEach(project => {
             projectsList.appendChild(project.renderProject())
         })
-        projectsList.insertAdjacentElement("afterbegin", newProjectLi)
-        newProjectLi.insertAdjacentElement("afterbegin", newProjectInput)
     }
 
     addTasks(project) {
