@@ -18,20 +18,12 @@ class App {
             e.preventDefault()
             const title = document.querySelector("#create-project-input").value
             const projectJSON = { title }
-
-            fetch('http://localhost:3000/api/v1/projects', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify(projectJSON)
-            })
-            .then(res => res.json())
+            this.adapter.createProject(projectJSON)
             .then(project => {
                 new Project(project.data)
                 this.addProjects()
             })
+            e.target.reset()
         })
     }
 

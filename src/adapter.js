@@ -18,4 +18,16 @@ class Adapter {
     fetchTasks() {
         return this.get(`${this.baseUrl}/tasks`)
     }
+
+    createProject(projectJSON) {
+        return fetch(`${this.baseUrl}/projects`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(projectJSON)
+        })
+        .then(res => res.json())
+    }
 }
