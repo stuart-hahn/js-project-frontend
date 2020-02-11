@@ -40,6 +40,8 @@ class App {
         const projectId = parseInt(project.id)
         const tasksList = document.querySelector(".tasks-list")
         tasksList.innerHTML = ''
+        const projectTitle = document.querySelector(".tasks-list-title")
+        projectTitle.innerText = project.title + ` Tasks`
         Task.all.forEach(task => {
             if (task.projectId === projectId) {
                 tasksList.appendChild(task.renderTask())
