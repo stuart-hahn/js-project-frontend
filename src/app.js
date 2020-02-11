@@ -22,9 +22,9 @@ class App {
 
     addProjects() {
         const list = document.querySelector(".projects-list")
-        list.innerHTML = '<li>Add a new Project</li>'
+        list.innerHTML = ''
         Project.all.forEach(project => {
-            list.innerHTML += project.renderProject()
+            list.appendChild(project.renderProject())
         })
 
     }

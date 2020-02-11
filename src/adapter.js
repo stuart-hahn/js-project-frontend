@@ -14,4 +14,8 @@ class Adapter {
     fetchProjects() {
         return this.get(`${this.baseUrl}/projects`)
     }
+
+    fetchTasks(projectId) {
+        return this.get(`${this.baseUrl}/projects/${projectId}`)
+    }
 }

@@ -6,7 +6,10 @@ class Project {
     }
 
     renderProject() {
-        return `<li data-id=${this.id}>${this.title}</li>`;
+        const li = document.createElement('li')
+        li.setAttribute("data-id", this.id)
+        li.innerText = this.title
+        return li
     }
 
     static findById(id) {
