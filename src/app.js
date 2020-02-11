@@ -30,10 +30,17 @@ class App {
 
     addProjects() {
         const projectsList = document.querySelector(".projects-list")
+        const newProjectLi = document.createElement('li')
+        const newProjectInput = document.createElement('input')
+        newProjectInput.id = "create-project-input"
+        newProjectInput.classList.add("u-full-width")
+        newProjectInput.placeholder = "Create Project ..."
         projectsList.innerHTML = ''
         Project.all.forEach(project => {
             projectsList.appendChild(project.renderProject())
         })
+        projectsList.insertAdjacentElement("afterbegin", newProjectLi)
+        newProjectLi.insertAdjacentElement("afterbegin", newProjectInput)
     }
 
     addTasks(project) {
