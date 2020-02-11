@@ -2,6 +2,7 @@ class Project {
     constructor(project) {
         this.id = project.id
         this.title =  project.attributes.title
+        this.tasks = project.attributes.tasks
         Project.all.push(this)
     }
 
