@@ -2,7 +2,6 @@ class App {
     constructor() {
         this.adapter = new Adapter()
         this.createProjects = this.createProjects.bind(this)
-        this.createTasks = this.createTasks.bind(this)
         this.addProjects = this.addProjects.bind(this)
         this.addTasks = this.addTasks.bind(this)
         this.createTaskForm = this.createTaskForm.bind(this)
@@ -27,6 +26,12 @@ class App {
             e.target.reset()
         })
 
+        document.querySelector(".create-task-form").addEventListener("submit", e => {
+            e.preventDefault()
+            const title = document.querySelector("#create-task-input")
+            e.target.reset()
+        })
+
     }
 
     createProjects(projects) {
@@ -36,32 +41,26 @@ class App {
         this.addProjects()
     }
 
-    createTasks(tasks) {
-        tasks.data.forEach(task => {
-            new Task(task)
-        })
-    }
-
     addProjects() {
         const projectsList = document.querySelector(".projects-list")
         const projects = Project.all
         projectsList.innerHTML = ''
-        projects.map((project, i) => {
+        projects.forEach((project) => {
             projectsList.appendChild(project.renderProject())
         })
     }
 
     addTasks(project) {
-        const projectId = parseInt(project.id)
         const tasksList = document.querySelector(".tasks-list")
         tasksList.innerHTML = ''
         
         const projectTitle = document.querySelector(".tasks-list-title")
         projectTitle.innerText = project.title + ` Tasks`
-        Task.all.forEach(task => {
-            if (task.projectId === projectId) {
-                tasksList.appendChild(task.renderTask())
-            }
+
+        project.tasks.forEach(task => {
+            const li = document.createElement("li")
+            li.innerText = task.title
+            tasksList.appendChild(li)
         })
         
         if (tasksList.innerHTML === '') {
@@ -74,17 +73,16 @@ class App {
     }
 
     createTaskForm(project) {
-        console.log(project)
-
         const taskForm = document.querySelector(".create-task-form")
         taskForm.innerHTML = ''
+
+        const projectId = project.id
 
         const row = document.createElement('div')
         row.classList.add("row")
         taskForm.appendChild(row)
 
         const div = document.createElement('div')
-        // div.classList.add("one-half")
         div.classList.add("column")
         row.appendChild(div)
 
@@ -97,12 +95,20 @@ class App {
 
         const input = document.createElement('input')
         input.type = "text"
+        input.setAttribute("project", projectId)
         input.id = "create-task-input"
         input.placeholder = "New Task Title..."
+
+        const button = document.createElement('input')
+        button.classList.add("button")
+        button.classList.add("button-primary")
+        button.type = "submit"
+        button.setAttribute("value", "Create Task")
 
         div.appendChild(h4)
         div.appendChild(label)
         div.appendChild(input)
+        taskForm.appendChild(button)
     }
 
 }
