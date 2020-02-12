@@ -5,6 +5,7 @@ class App {
         this.addProjects = this.addProjects.bind(this)
         this.addTasks = this.addTasks.bind(this)
         this.createTaskForm = this.createTaskForm.bind(this)
+        this.addTask = this.addTask.bind(this)
     }
 
     attachEventListeners() {
@@ -28,7 +29,14 @@ class App {
 
         document.querySelector(".create-task-form").addEventListener("submit", e => {
             e.preventDefault()
-            const title = document.querySelector("#create-task-input")
+            const title = document.querySelector("#create-task-input").value
+            const project_id = parseInt(e.target.id)
+            const taskJSON = { title, project_id }
+            this.adapter.createTask(taskJSON)
+            .then(task => {
+                new Task(task.data)
+                this.addTask(task)
+            })
             e.target.reset()
         })
 
@@ -50,6 +58,13 @@ class App {
         })
     }
 
+    addTask(task) {
+        const tasksList = document.querySelector(".tasks-list")
+        const newTaskLi = document.createElement("li")
+        newTaskLi.innerText = task.data.attributes.title
+        tasksList.appendChild(newTaskLi)
+    }
+
     addTasks(project) {
         const tasksList = document.querySelector(".tasks-list")
         tasksList.innerHTML = ''
@@ -62,21 +77,14 @@ class App {
             li.innerText = task.title
             tasksList.appendChild(li)
         })
-        
-        if (tasksList.innerHTML === '') {
-            const noTasks = document.createElement('li')
-            noTasks.innerText = "There are no tasks for this project yet..."
-            tasksList.appendChild(noTasks)
-        }
 
         this.createTaskForm(project)
     }
 
     createTaskForm(project) {
         const taskForm = document.querySelector(".create-task-form")
+        taskForm.id = project.id
         taskForm.innerHTML = ''
-
-        const projectId = project.id
 
         const row = document.createElement('div')
         row.classList.add("row")
@@ -95,7 +103,6 @@ class App {
 
         const input = document.createElement('input')
         input.type = "text"
-        input.setAttribute("project", projectId)
         input.id = "create-task-input"
         input.placeholder = "New Task Title..."
 

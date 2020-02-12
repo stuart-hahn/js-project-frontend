@@ -30,4 +30,16 @@ class Adapter {
         })
         .then(res => res.json())
     }
+
+    createTask(taskJSON) {
+        return fetch(`${this.baseUrl}/tasks`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(taskJSON)
+        })
+        .then(res => res.json())
+    }
 }
