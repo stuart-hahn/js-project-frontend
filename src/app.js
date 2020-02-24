@@ -40,6 +40,28 @@ class App {
             e.target.reset()
         })
 
+        document.querySelector("#sort-projects-button").addEventListener("click", e => {
+            this.adapter.fetchProjects()
+            .then(projects => {
+                const sortedProjects = projects.data.sort(function(a, b) {
+                    var nameA = a.attributes.title.toUpperCase(); // ignore upper and lowercase
+                    var nameB = b.attributes.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                  
+                    // names must be equal
+                    return 0;
+                });
+                console.log("Before clear", Project.all)
+                Project.all = []
+                this.createProjects(projects)
+                console.log("After clear", Project.all)
+            })
+        })
     }
 
     createProjects(projects) {
